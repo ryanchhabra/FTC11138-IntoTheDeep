@@ -33,6 +33,16 @@ public class Constants {
 
     /* -------------------------------------------- MOTOR CONSTANTS -------------------------------------------- */
 
+    // LIFT
+    public static double liftMin1 = 0;
+    public static double liftMin2 = 0;
+    public static double liftMax1 = 100;
+    public static double liftMax2 = 100;
+    public static double liftSlow = 50;
+
+    public static double liftUpRatio = 1;
+    public static double liftDownRatio = 1;
+    public static double liftSlowRatio = 1;
 
 
 

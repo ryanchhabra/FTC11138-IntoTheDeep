@@ -46,6 +46,7 @@ import org.firstinspires.ftc.teamcode.messages.MecanumLocalizerInputsMessage;
 import org.firstinspires.ftc.teamcode.messages.PoseMessage;
 import org.firstinspires.ftc.teamcode.rr.Drawing;
 import org.firstinspires.ftc.teamcode.rr.Localizer;
+import org.firstinspires.ftc.teamcode.util.Configuration;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -91,6 +92,20 @@ public class MecanumDrive {
         public double lateralVelGain = 0.0;
         public double headingVelGain = 0.0; // shared with turn
     }
+
+
+
+
+
+
+    // CUSTOM STUFF
+    public Configuration names = new Configuration();
+
+
+
+
+
+
 
     public static Params PARAMS = new Params();
 
@@ -238,7 +253,7 @@ public class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new DriveLocalizer();
+        localizer = new ThreeDeadWheelLocalizer(hardwareMap, PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }
