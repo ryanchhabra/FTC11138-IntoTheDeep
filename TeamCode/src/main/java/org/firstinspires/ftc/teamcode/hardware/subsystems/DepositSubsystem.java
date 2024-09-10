@@ -12,7 +12,9 @@ import org.firstinspires.ftc.teamcode.util.Globals;
 public class DepositSubsystem extends SubsystemBase {
 
     private final DcMotorEx lift1, lift2;
-    private final Servo wrist;
+    private final Servo wrist, claw;
+
+    private ClawState clawState;
 
     private boolean useLiftPower = true;
     private boolean liftModeUpdate = false;
@@ -26,10 +28,19 @@ public class DepositSubsystem extends SubsystemBase {
 
     private double maxPower = 1;
 
-    public DepositSubsystem(HardwareMap hardwareMap, String lift1, String lift2, String wrist) {
+
+    public enum ClawState {
+        OPEN,
+        CLOSED,
+    }
+
+
+    public DepositSubsystem(HardwareMap hardwareMap, String lift1, String lift2, String wrist, String claw) {
         this.lift1 = hardwareMap.get(DcMotorEx.class, lift1);
         this.lift2 = hardwareMap.get(DcMotorEx.class, lift2);
         this.wrist = hardwareMap.get(Servo.class, wrist);
+        this.claw = hardwareMap.get(Servo.class, claw);
+        this.clawState = ClawState.OPEN;
     }
 
     public void setWristServo(double pos) {
@@ -38,6 +49,26 @@ public class DepositSubsystem extends SubsystemBase {
 
     public double getWristPosition() {
         return this.wrist.getPosition();
+    }
+
+    public void updateClawState(ClawState state) {
+        this.clawState = state;
+        claw.setPosition(getClawStatePosition(state));
+    }
+
+    private double getClawStatePosition(ClawState state) {
+        switch (state) {
+            case OPEN:
+                return Constants.clawOpen;
+            case CLOSED:
+                return Constants.clawClose;
+            default:
+                return 0;
+        }
+    }
+
+    public ClawState getClawState() {
+        return this.clawState;
     }
 
     public void setPower(double power) {

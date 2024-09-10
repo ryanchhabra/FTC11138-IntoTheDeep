@@ -15,6 +15,7 @@ public class Configuration {
     // Servos
 
     public final String wrist = "wrist";
+    public final String depositClaw = "depositClaw";
 
     // Other Stuff
     public final String leds = "leds";

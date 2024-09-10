@@ -23,11 +23,22 @@ public class Robot extends MecanumDrive {
 
     public DepositSubsystem depositSubsystem;
 
-    public Robot(HardwareMap hardwareMap, Telemetry telemetry_) {
-        super(hardwareMap, new Pose2d(0, 0, 0));
 
-        this.depositSubsystem = new DepositSubsystem(hardwareMap, names.lift1, names.lift2, names.wrist);
+    private static Robot instance = null;
 
+
+    public void initialize(HardwareMap hardwareMap, Telemetry telemetry_) {
+        initializeRoadrunner(hardwareMap, new Pose2d(0, 0, 0));
+
+        this.depositSubsystem = new DepositSubsystem(hardwareMap, names.lift1, names.lift2, names.wrist, names.depositClaw);
+
+    }
+
+    public static Robot getInstance() {
+        if (instance == null) {
+            instance = new Robot();
+        }
+        return instance;
     }
 
 }

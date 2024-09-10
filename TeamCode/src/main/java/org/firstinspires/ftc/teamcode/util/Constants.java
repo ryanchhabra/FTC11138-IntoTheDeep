@@ -29,6 +29,9 @@ public class Constants {
 
     /* -------------------------------------------- SERVO CONSTANTS -------------------------------------------- */
 
+    public static double clawOpen = 1;
+    public static double clawClose = 0;
+
 
 
     /* -------------------------------------------- MOTOR CONSTANTS -------------------------------------------- */

@@ -122,13 +122,13 @@ public class MecanumDrive {
     public final AccelConstraint defaultAccelConstraint =
             new ProfileAccelConstraint(PARAMS.minProfileAccel, PARAMS.maxProfileAccel);
 
-    public final DcMotorEx leftFront, leftBack, rightBack, rightFront;
+    public DcMotorEx leftFront, leftBack, rightBack, rightFront;
 
-    public final VoltageSensor voltageSensor;
+    public VoltageSensor voltageSensor;
 
-    public final LazyImu lazyImu;
+    public LazyImu lazyImu;
 
-    public final Localizer localizer;
+    public Localizer localizer;
     public Pose2d pose;
 
     private final LinkedList<Pose2d> poseHistory = new LinkedList<>();
@@ -222,7 +222,11 @@ public class MecanumDrive {
         }
     }
 
-    public MecanumDrive(HardwareMap hardwareMap, Pose2d pose) {
+    public MecanumDrive() {
+
+    }
+
+    public void initializeRoadrunner(HardwareMap hardwareMap, Pose2d pose) {
         this.pose = pose;
 
         LynxFirmware.throwIfModulesAreOutdated(hardwareMap);
