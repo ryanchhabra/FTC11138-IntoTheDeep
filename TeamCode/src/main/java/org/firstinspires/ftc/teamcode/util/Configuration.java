@@ -3,8 +3,7 @@ package org.firstinspires.ftc.teamcode.util;
 public class Configuration {
 
     // Motors
-    public final String lift1 = "lift1";
-    public final String lift2 = "lift2";
+    public final String lift = "lift";
 
 
     public final String leftFront = "lf";

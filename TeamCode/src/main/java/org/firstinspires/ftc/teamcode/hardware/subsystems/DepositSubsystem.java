@@ -6,12 +6,13 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
 
-public class DepositSubsystem extends SubsystemBase {
+public class DepositSubsystem extends RE_SubsystemBase {
 
-    private final DcMotorEx lift1, lift2;
+    private final DcMotorEx lift;
     private final Servo wrist, claw;
 
     private ClawState clawState;
@@ -21,10 +22,8 @@ public class DepositSubsystem extends SubsystemBase {
     private boolean liftUseEnc = true;
 
     private int targetLiftPosition = 0;
-    private int currentLiftPosition1 = 0;
-    private int currentLiftPosition2 = 0;
-    private double liftPower1 = 0.0;
-    private double liftPower2 = 0.0;
+    private int currentLiftPosition = 0;
+    private double liftPower = 0.0;
 
     private double maxPower = 1;
 
@@ -32,23 +31,26 @@ public class DepositSubsystem extends SubsystemBase {
     public enum ClawState {
         OPEN,
         CLOSED,
+        NONE
     }
 
 
-    public DepositSubsystem(HardwareMap hardwareMap, String lift1, String lift2, String wrist, String claw) {
-        this.lift1 = hardwareMap.get(DcMotorEx.class, lift1);
-        this.lift2 = hardwareMap.get(DcMotorEx.class, lift2);
+    public DepositSubsystem(HardwareMap hardwareMap, String lift1, String wrist, String claw) {
+        this.lift = hardwareMap.get(DcMotorEx.class, lift1);
         this.wrist = hardwareMap.get(Servo.class, wrist);
         this.claw = hardwareMap.get(Servo.class, claw);
         this.clawState = ClawState.OPEN;
     }
 
-    public void setWristServo(double pos) {
-        this.wrist.setPosition(pos);
+    @Override
+    public void updateData() {
+        Robot.getInstance().data.liftPosition = currentLiftPosition;
+        Robot.getInstance().data.depositClawState = clawState;
+        Robot.getInstance().data.wristPosition = wrist.getPosition();
     }
 
-    public double getWristPosition() {
-        return this.wrist.getPosition();
+    public void setWristServo(double pos) {
+        this.wrist.setPosition(pos);
     }
 
     public void updateClawState(ClawState state) {
@@ -72,8 +74,7 @@ public class DepositSubsystem extends SubsystemBase {
     }
 
     public void setPower(double power) {
-        this.liftPower1 = power;
-        this.liftPower2 = power;
+        this.liftPower = power;
     }
 
     public void setTargetLiftPosition(int target) {
@@ -83,86 +84,55 @@ public class DepositSubsystem extends SubsystemBase {
     }
 
     public void setLiftPosition(double power, int target) {
-        lift1.setPower(power);
-        lift2.setPower(power);
-        lift1.setTargetPosition(target);
-        lift2.setTargetPosition(target);
-        lift1.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        lift2.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        lift.setPower(power);
+        lift.setTargetPosition(target);
+        lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
     }
 
-    public void teleop_periodic() {
-        currentLiftPosition1 = lift1.getCurrentPosition();
-        currentLiftPosition2 = lift2.getCurrentPosition();
+    @Override
+    public void periodic() {
+        currentLiftPosition = lift.getCurrentPosition();
 
-        if (useLiftPower && liftPower1 == 0 && liftPower2 == 0) {
+        if (useLiftPower && liftPower == 0) {
             useLiftPower = false;
-            targetLiftPosition = currentLiftPosition1;
+            targetLiftPosition = currentLiftPosition;
             liftUseEnc = true;
         }
 
-        if (liftPower1 > 0.05) {
+        if (liftPower > 0.05) {
             liftUseEnc = true;
             // user trying to lift up
-            if (currentLiftPosition1 < Constants.liftMax1 || !Globals.LIMITS) {
+            if (currentLiftPosition < Constants.liftMax1 || !Globals.LIMITS) {
                 useLiftPower = true;
-                liftPower1 *= Constants.liftUpRatio;
+                liftPower *= Constants.liftUpRatio;
             } else {
-                liftPower1 = 0;
+                liftPower = 0;
             }
-        } else if (liftPower1 < -0.05) {
+        } else if (liftPower < -0.05) {
             liftUseEnc = true;
             // user trying to lift down
-            if (currentLiftPosition1 > Constants.liftMin1 || !Globals.LIMITS) {
+            if (currentLiftPosition > Constants.liftMin1 || !Globals.LIMITS) {
                 useLiftPower = true;
-                liftPower1 *= Constants.liftDownRatio;
-                if (currentLiftPosition1 > Constants.liftSlow) {
-                    currentLiftPosition1 *= Constants.liftSlowRatio;
+                liftPower *= Constants.liftDownRatio;
+                if (currentLiftPosition > Constants.liftSlow) {
+                    currentLiftPosition *= Constants.liftSlowRatio;
                 }
             } else {
-                liftPower1 = 0;
+                liftPower = 0;
             }
         } else if (useLiftPower) {
-            liftPower1 = 0;
-        }
-
-        if (liftPower2 > 0.05) {
-            liftUseEnc = true;
-            // user trying to lift up
-            if (currentLiftPosition2 < Constants.liftMax2 || !Globals.LIMITS) {
-                useLiftPower = true;
-                liftPower2 *= Constants.liftUpRatio;
-            } else {
-                liftPower2 = 0;
-            }
-        } else if (liftPower2 < -0.05) {
-            liftUseEnc = true;
-            // user trying to lift down
-            if (currentLiftPosition2 > Constants.liftMin2 || !Globals.LIMITS) {
-                useLiftPower = true;
-                liftPower2 *= Constants.liftDownRatio;
-                if (currentLiftPosition2 > Constants.liftSlow) {
-                    currentLiftPosition2 *= Constants.liftSlowRatio;
-                }
-            } else {
-                liftPower2 = 0;
-            }
-        } else if (useLiftPower) {
-            liftPower2 = 0;
+            liftPower = 0;
         }
 
 
         if (liftModeUpdate && liftUseEnc) {
-            lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             liftModeUpdate = false;
         }
 
         if (useLiftPower) {
-            lift1.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-            lift2.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-            lift1.setPower(this.liftPower1);
-            lift2.setPower(this.liftPower2);
+            lift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+            lift.setPower(this.liftPower);
         } else {
             setLiftPosition(this.maxPower, this.targetLiftPosition);
             liftUseEnc = false;
