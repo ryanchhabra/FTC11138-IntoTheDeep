@@ -36,10 +36,8 @@ public class TeleOp_Duo extends CommandOpMode {
 
         Globals.IS_AUTO = false;
 
-        localizer = new Localizer(hardwareMap, new ArrayList<>(), new ArrayList<>());
-        localizer.setPoseEstimate(PoseStorage.currentPose);
-
         robot.initialize(hardwareMap, telemetry);
+        robot.setPoseEstimate(robot.data.currentPose);
 
         Globals.stopIntaking();
         Globals.stopScoring();
@@ -61,8 +59,8 @@ public class TeleOp_Duo extends CommandOpMode {
         cs.run();
         robot.periodic();
 
-        localizer.update();
-        currentPose = localizer.getPoseEstimate();
+        robot.update();
+        currentPose = robot.getPoseEstimate();
         heading = -currentPose.getHeading();
 
         Vector2d input = new Vector2d(

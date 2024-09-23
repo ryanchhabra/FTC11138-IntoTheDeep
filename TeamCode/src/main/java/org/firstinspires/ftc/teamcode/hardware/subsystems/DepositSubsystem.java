@@ -26,6 +26,7 @@ public class DepositSubsystem extends RE_SubsystemBase {
     private double liftPower = 0.0;
 
     private double maxPower = 1;
+    private double minPower = 0.1;
 
 
     public enum ClawState {
@@ -134,13 +135,15 @@ public class DepositSubsystem extends RE_SubsystemBase {
             lift.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
             lift.setPower(this.liftPower);
         } else {
-            setLiftPosition(this.maxPower, this.targetLiftPosition);
+            if (currentLiftPosition > targetLiftPosition) {
+                setLiftPosition(this.minPower, this.targetLiftPosition);
+            } else {
+                setLiftPosition(this.maxPower, this.targetLiftPosition);
+            }
             liftUseEnc = false;
             liftModeUpdate = true;
         }
 
     }
-
-
 
 }

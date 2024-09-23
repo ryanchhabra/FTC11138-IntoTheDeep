@@ -6,6 +6,8 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 public class WristCommand extends InstantCommand {
     public WristCommand(double pos) {
-        Robot.getInstance().depositSubsystem.setWristServo(pos);
+        super(
+                () -> Robot.getInstance().depositSubsystem.setWristServo(pos)
+        );
     }
 }

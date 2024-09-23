@@ -37,6 +37,8 @@ public class Robot extends MecanumDrive {
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry_) {
         initializeRoadrunner(hardwareMap);
 
+        telemetry = telemetry_;
+
         subsystems = new ArrayList<>();
 
         this.depositSubsystem = new DepositSubsystem(hardwareMap, names.lift, names.wrist, names.depositClaw);
@@ -58,6 +60,7 @@ public class Robot extends MecanumDrive {
         for (RE_SubsystemBase subsystem : subsystems) {
             subsystem.updateData();
         }
+        this.data.currentPose = this.getPoseEstimate();
     }
 
     public static Robot getInstance() {

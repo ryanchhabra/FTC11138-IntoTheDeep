@@ -9,7 +9,7 @@ public class Globals {
 
     public static boolean IS_AUTO = false;
 
-    public static Alliance ALLIANCE;
+    public static Alliance ALLIANCE = Alliance.BLUE;
 
 
     public static boolean IS_SCORING = false;

@@ -4,12 +4,19 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Const;
+import org.firstinspires.ftc.teamcode.commands.subsystem.LiftCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.LiftPowerCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.LiftSetCommand;
 import org.firstinspires.ftc.teamcode.hardware.MecanumDrive;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Localizer;
+import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
 import org.firstinspires.ftc.teamcode.util.PoseStorage;
 
@@ -35,10 +42,8 @@ public class TeleOp_Solo extends CommandOpMode {
 
         Globals.IS_AUTO = false;
 
-        localizer = new Localizer(hardwareMap, new ArrayList<>(), new ArrayList<>());
-        localizer.setPoseEstimate(PoseStorage.currentPose);
-
         robot.initialize(hardwareMap, telemetry);
+        robot.setPoseEstimate(robot.data.currentPose);
 
         Globals.stopIntaking();
         Globals.stopScoring();
@@ -52,6 +57,12 @@ public class TeleOp_Solo extends CommandOpMode {
                 break;
         }
 
+        g1.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(() -> cs.schedule(new LiftSetCommand(Constants.liftMax1)));
+
+        g1.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(() -> cs.schedule(new LiftSetCommand(Constants.liftMin1)));
+
     }
 
     @Override
@@ -60,8 +71,8 @@ public class TeleOp_Solo extends CommandOpMode {
         cs.run();
         robot.periodic();
 
-        localizer.update();
-        currentPose = localizer.getPoseEstimate();
+        robot.update();
+        currentPose = robot.getPoseEstimate();
         heading = -currentPose.getHeading();
 
         Vector2d input = new Vector2d(
