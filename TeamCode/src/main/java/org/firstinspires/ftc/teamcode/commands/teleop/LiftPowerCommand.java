@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.util.Constants;
 public class LiftPowerCommand extends InstantCommand {
     public LiftPowerCommand(double power) {
         super(
-                () -> Robot.getInstance().depositSubsystem.setPower(power)
+                () -> Robot.getInstance().depositSubsystem.setLiftPower(power)
         );
     }
 }

@@ -4,6 +4,7 @@ public class Configuration {
 
     // Motors
     public final String lift = "lift";
+    public final String extension = "ext";
 
 
     public final String leftFront = "lf";
@@ -15,6 +16,9 @@ public class Configuration {
 
     public final String wrist = "wrist";
     public final String depositClaw = "depositClaw";
+
+    public final String arm = "arm";
+    public final String intake = "intake";
 
     // Other Stuff
     public final String leds = "leds";

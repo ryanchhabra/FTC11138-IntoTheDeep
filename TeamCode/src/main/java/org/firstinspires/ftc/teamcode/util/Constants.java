@@ -32,6 +32,9 @@ public class Constants {
     public static double clawOpen = 1;
     public static double clawClose = 0;
 
+    public static double armTransfer = 0;
+    public static double armIntake = 1;
+
 
 
     /* -------------------------------------------- MOTOR CONSTANTS -------------------------------------------- */
@@ -46,6 +49,15 @@ public class Constants {
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 1;
     public static double liftSlowRatio = 1;
+
+    // Extension
+    public static int extMin = 0;
+    public static int extMax = 300;
+    public static int extSlow = 50;
+
+    public static double extUpRatio = 1;
+    public static double extDownRatio = 1;
+    public static double extSlowRatio = 1;
 
 
 

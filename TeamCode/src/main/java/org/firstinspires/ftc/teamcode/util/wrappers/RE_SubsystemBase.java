@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.hardware.subsystems;
+package org.firstinspires.ftc.teamcode.util.wrappers;
 
 import com.arcrobotics.ftclib.command.SubsystemBase;
 
