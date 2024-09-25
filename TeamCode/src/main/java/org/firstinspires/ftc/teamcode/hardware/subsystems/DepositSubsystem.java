@@ -1,17 +1,14 @@
 package org.firstinspires.ftc.teamcode.hardware.subsystems;
 
 import com.arcrobotics.ftclib.hardware.ServoEx;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcore.external.Const;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.util.MotorParams;
+import org.firstinspires.ftc.teamcode.util.wrappers.MotorParams;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_DcMotorEx;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_SubsystemBase;
 import org.firstinspires.ftc.teamcode.util.Constants;
-import org.firstinspires.ftc.teamcode.util.Globals;
 
 public class DepositSubsystem extends RE_SubsystemBase {
 

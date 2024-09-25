@@ -4,8 +4,8 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
-public class WristCommand extends InstantCommand {
-    public WristCommand(double pos) {
+public class WristPositionCommand extends InstantCommand {
+    public WristPositionCommand(double pos) {
         super(
                 () -> Robot.getInstance().depositSubsystem.setWristServo(pos)
         );

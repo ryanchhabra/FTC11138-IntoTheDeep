@@ -4,23 +4,15 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
-import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.Const;
-import org.firstinspires.ftc.teamcode.commands.subsystem.LiftCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.LiftPowerCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.LiftSetCommand;
-import org.firstinspires.ftc.teamcode.hardware.MecanumDrive;
+import org.firstinspires.ftc.teamcode.commands.subsystem.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Localizer;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
-import org.firstinspires.ftc.teamcode.util.PoseStorage;
-
-import java.util.ArrayList;
 
 @TeleOp (name = "Solo")
 public class TeleOp_Solo extends CommandOpMode {
@@ -58,10 +50,10 @@ public class TeleOp_Solo extends CommandOpMode {
         }
 
         g1.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(() -> cs.schedule(new LiftSetCommand(Constants.liftMax1)));
+                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMax1)));
 
         g1.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(() -> cs.schedule(new LiftSetCommand(Constants.liftMin1)));
+                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMin1)));
 
     }
 

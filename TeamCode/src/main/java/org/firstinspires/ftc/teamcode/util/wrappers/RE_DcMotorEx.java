@@ -3,9 +3,7 @@ package org.firstinspires.ftc.teamcode.util.wrappers;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
-import org.firstinspires.ftc.teamcode.util.MotorParams;
 
 public class RE_DcMotorEx {
 

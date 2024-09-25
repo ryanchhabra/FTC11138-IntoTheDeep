@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.util.Constants;
-import org.firstinspires.ftc.teamcode.util.MotorParams;
+import org.firstinspires.ftc.teamcode.util.wrappers.MotorParams;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_DcMotorEx;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_SubsystemBase;
 
