@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.util.Globals;
 
 public class RobotData {
 
+    public long loopTime = System.currentTimeMillis();
+
     public int liftPosition = 0;
     public double wristPosition = 0;
     public DepositSubsystem.ClawState depositClawState = DepositSubsystem.ClawState.NONE;
@@ -25,7 +27,12 @@ public class RobotData {
 
     public void write(Telemetry telemetry) {
 
+        telemetry.addData("LOOP TIME", System.currentTimeMillis() - loopTime);
+
+        telemetry.addLine();
+
         telemetry.addData("POSE", this.currentPose);
+        telemetry.addData("BUSY", Robot.getInstance().isBusy());
 
         telemetry.addLine();
 

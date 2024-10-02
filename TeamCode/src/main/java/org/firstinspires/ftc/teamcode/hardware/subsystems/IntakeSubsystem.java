@@ -4,6 +4,7 @@ import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.util.Constants;
@@ -19,7 +20,7 @@ public class IntakeSubsystem extends RE_SubsystemBase {
             1, 1, Constants.extUpRatio, Constants.extDownRatio, Constants.extSlowRatio
     );
 
-    private final ServoEx arm;
+    private final Servo arm;
     private final CRServoImplEx intake;
 
     public IntakeState intakeState;
@@ -39,7 +40,7 @@ public class IntakeSubsystem extends RE_SubsystemBase {
 
     public IntakeSubsystem(HardwareMap hardwareMap, String ext, String arm, String intake) {
         this.extension = new RE_DcMotorEx(hardwareMap.get(DcMotorEx.class, ext), extensionParams);
-        this.arm = hardwareMap.get(ServoEx.class, arm);
+        this.arm = hardwareMap.get(Servo.class, arm);
         this.intake = hardwareMap.get(CRServoImplEx.class, intake);
         intakeState = IntakeState.STOP;
         armState = ArmState.TRANSFER;

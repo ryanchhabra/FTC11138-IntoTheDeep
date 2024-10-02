@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.hardware.subsystems;
 import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.util.wrappers.MotorParams;
@@ -18,7 +19,7 @@ public class DepositSubsystem extends RE_SubsystemBase {
             1, 0.1, Constants.liftUpRatio, Constants.liftDownRatio, Constants.liftSlowRatio
     );
 
-    private final ServoEx wrist, claw;
+    private final Servo wrist, claw;
 
     private ClawState clawState;
 
@@ -31,8 +32,8 @@ public class DepositSubsystem extends RE_SubsystemBase {
 
     public DepositSubsystem(HardwareMap hardwareMap, String lift1, String wrist, String claw) {
         this.lift = new RE_DcMotorEx(hardwareMap.get(DcMotorEx.class, lift1), liftParams);
-        this.wrist = hardwareMap.get(ServoEx.class, wrist);
-        this.claw = hardwareMap.get(ServoEx.class, claw);
+        this.wrist = hardwareMap.get(Servo.class, wrist);
+        this.claw = hardwareMap.get(Servo.class, claw);
         this.clawState = ClawState.OPEN;
 
         Robot.getInstance().subsystems.add(this);
