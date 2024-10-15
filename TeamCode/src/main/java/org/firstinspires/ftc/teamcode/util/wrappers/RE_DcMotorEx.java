@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.util.Globals;
 
 public class RE_DcMotorEx {
 
-    private DcMotorEx motor;
+    public DcMotorEx motor;
     public MotorParams params;
 
     private boolean usePower = true;

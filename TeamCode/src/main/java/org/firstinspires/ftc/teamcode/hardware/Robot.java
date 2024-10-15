@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -24,6 +25,8 @@ public class Robot extends MecanumDrive {
     public VisionPortal visionPortal;
     public AprilTagProcessor aprilTagProcessor;
 
+    public Limelight3A limelight;
+
     public RobotData data = new RobotData();
 
     public DepositSubsystem depositSubsystem;
@@ -41,8 +44,10 @@ public class Robot extends MecanumDrive {
 
         subsystems = new ArrayList<>();
 
-        this.depositSubsystem = new DepositSubsystem(hardwareMap, names.lift, names.wrist, names.depositClaw);
-        this.intakeSubsystem = new IntakeSubsystem(hardwareMap, names.extension, names.arm, names.intake);
+        this.depositSubsystem = new DepositSubsystem(hardwareMap, names.lift, names.lift2, names.bucket);
+        this.intakeSubsystem = new IntakeSubsystem(hardwareMap, names.extension, names.arm1, names.arm2, names.intake);
+
+        this.limelight = hardwareMap.get(Limelight3A.class, names.limelight);
 
     }
 

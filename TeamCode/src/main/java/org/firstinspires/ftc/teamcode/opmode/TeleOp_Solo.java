@@ -8,9 +8,11 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Localizer;
+import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
 
@@ -50,10 +52,16 @@ public class TeleOp_Solo extends CommandOpMode {
         }
 
         g1.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMax1)));
+                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMin1)));
 
         g1.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMin1)));
+                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMax1)));
+
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(() -> cs.schedule(new ArmStateCommand(IntakeSubsystem.ArmState.INTAKE)));
+
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(() -> cs.schedule(new ArmStateCommand(IntakeSubsystem.ArmState.TRANSFER)));
 
     }
 
@@ -80,6 +88,8 @@ public class TeleOp_Solo extends CommandOpMode {
                         -gamepad1.right_stick_x
                 )
         );
+
+        robot.depositSubsystem.setLiftPower(-gamepad1.right_stick_y);
 
         robot.updateData();
         robot.write();

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.hardware.subsystems;
 
-import com.arcrobotics.ftclib.hardware.ServoEx;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,7 +19,7 @@ public class IntakeSubsystem extends RE_SubsystemBase {
             1, 1, Constants.extUpRatio, Constants.extDownRatio, Constants.extSlowRatio
     );
 
-    private final Servo arm;
+    private final Servo arm1, arm2;
     private final CRServoImplEx intake;
 
     public IntakeState intakeState;
@@ -35,34 +34,41 @@ public class IntakeSubsystem extends RE_SubsystemBase {
     public enum ArmState {
         TRANSFER,
         INTAKE,
+        UP,
         NONE
     }
 
-    public IntakeSubsystem(HardwareMap hardwareMap, String ext, String arm, String intake) {
+    public IntakeSubsystem(HardwareMap hardwareMap, String ext, String arm1, String arm2, String intake) {
         this.extension = new RE_DcMotorEx(hardwareMap.get(DcMotorEx.class, ext), extensionParams);
-        this.arm = hardwareMap.get(Servo.class, arm);
+
+        this.arm1 = hardwareMap.get(Servo.class, arm1);
+        this.arm2 = hardwareMap.get(Servo.class, arm2);
+        this.arm2.setDirection(Servo.Direction.REVERSE);
+
         this.intake = hardwareMap.get(CRServoImplEx.class, intake);
+
         intakeState = IntakeState.STOP;
-        armState = ArmState.TRANSFER;
+        armState = ArmState.UP;
 
         Robot.getInstance().subsystems.add(this);
     }
 
     @Override
     public void updateData() {
-        Robot.getInstance().data.liftPosition = this.extension.getPosition();
+        Robot.getInstance().data.extensionPosition = this.extension.getPosition();
         Robot.getInstance().data.armState = armState;
-        Robot.getInstance().data.armPosition = arm.getPosition();
+        Robot.getInstance().data.armPosition1 = arm1.getPosition();
+        Robot.getInstance().data.armPosition2 = arm2.getPosition();
         Robot.getInstance().data.intakeState = intakeState;
     }
 
     public void setArmPosition(double pos) {
-        this.arm.setPosition(pos);
+        this.arm1.setPosition(pos);
+        this.arm2.setPosition(pos);
     }
 
     public void updateArmState(ArmState state) {
         this.armState = state;
-        this.arm.setPosition(getArmStatePosition(state));
     }
 
     private double getArmStatePosition(ArmState state) {
@@ -71,6 +77,8 @@ public class IntakeSubsystem extends RE_SubsystemBase {
                 return Constants.armTransfer;
             case INTAKE:
                 return Constants.armIntake;
+            case UP:
+                return Constants.armUp;
             default:
                 return 0;
         }
@@ -92,6 +100,9 @@ public class IntakeSubsystem extends RE_SubsystemBase {
     public void periodic() {
         this.extension.periodic();
 
+        this.arm1.setPosition(getArmStatePosition(armState) - Constants.armServoOffset);
+        this.arm2.setPosition(getArmStatePosition(armState));
+
         switch (this.intakeState) {
             case IN:
                 intake.setPower(-1);
@@ -108,7 +119,5 @@ public class IntakeSubsystem extends RE_SubsystemBase {
     public void updateIntakeState(IntakeState state) {
         this.intakeState = state;
     }
-
-
 
 }

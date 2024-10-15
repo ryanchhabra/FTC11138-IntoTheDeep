@@ -29,11 +29,14 @@ public class Constants {
 
     /* -------------------------------------------- SERVO CONSTANTS -------------------------------------------- */
 
-    public static double clawOpen = 1;
-    public static double clawClose = 0;
+    public static double bucketDrop = 1;
+    public static double bucketIntake = 0;
 
     public static double armTransfer = 0;
-    public static double armIntake = 1;
+    public static double armIntake = 0.5;
+    public static double armUp = 0.2;
+
+    public static double armServoOffset = 0;
 
 
 
