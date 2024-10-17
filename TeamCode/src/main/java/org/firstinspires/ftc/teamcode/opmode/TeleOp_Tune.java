@@ -9,21 +9,18 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
+import org.firstinspires.ftc.teamcode.commands.subsystem.BucketStateCommand;
+import org.firstinspires.ftc.teamcode.commands.subsystem.IntakeStateCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.LiftPositionCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.DropSampleCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.IntakePullBackCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.IntakePushOutCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.LiftDownCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.LiftUpCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.SampleTransferCommand;
-import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Localizer;
+import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.subsystems.DepositSubsystem;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
 
-@TeleOp (name = "Solo")
-public class TeleOp_Solo extends CommandOpMode {
+@TeleOp (name = "Tune")
+public class TeleOp_Tune extends CommandOpMode {
 
     private final Robot robot = Robot.getInstance();
     private final CommandScheduler cs = CommandScheduler.getInstance();
@@ -58,22 +55,34 @@ public class TeleOp_Solo extends CommandOpMode {
         }
 
         g1.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(() -> cs.schedule(new LiftDownCommand()));
+                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMin1)));
 
         g1.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(() -> cs.schedule(new LiftUpCommand()));
+                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMax1)));
+
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(() -> cs.schedule(new ArmStateCommand(IntakeSubsystem.ArmState.INTAKE)));
+
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(() -> cs.schedule(new ArmStateCommand(IntakeSubsystem.ArmState.TRANSFER)));
+
+        g1.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
+                .whenPressed(() -> cs.schedule(new ArmStateCommand(IntakeSubsystem.ArmState.UP)));
 
         g1.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(() -> cs.schedule(new IntakePullBackCommand()));
+                .whenPressed(() -> cs.schedule(new BucketStateCommand(DepositSubsystem.BucketState.INTAKE)));
 
         g1.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(() -> cs.schedule(new IntakePushOutCommand()));
+                .whenPressed(() -> cs.schedule(new BucketStateCommand(DepositSubsystem.BucketState.DROP)));
 
         g1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(() -> cs.schedule(new DropSampleCommand()));
+                .whenPressed(() -> cs.schedule(new IntakeStateCommand(IntakeSubsystem.IntakeState.IN)));
 
         g1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
-                .whenPressed(() -> cs.schedule(new SampleTransferCommand()));
+                .whenPressed(() -> cs.schedule(new IntakeStateCommand(IntakeSubsystem.IntakeState.OUT)));
+
+        g1.getGamepadButton(GamepadKeys.Button.LEFT_STICK_BUTTON)
+                .whenPressed(() -> cs.schedule(new IntakeStateCommand(IntakeSubsystem.IntakeState.STOP)));
 
     }
 
@@ -83,23 +92,8 @@ public class TeleOp_Solo extends CommandOpMode {
         cs.run();
         robot.periodic();
 
-        robot.update();
-        currentPose = robot.getPoseEstimate();
-        heading = -currentPose.getHeading();
-
-        Vector2d input = new Vector2d(
-                -gamepad1.left_stick_y,
-                -gamepad1.left_stick_x
-        ).rotated(heading + fieldCentricOffset);
-
-
-        robot.setWeightedDrivePower(
-                new Pose2d(
-                        input.getX(),
-                        input.getY(),
-                        -gamepad1.right_stick_x
-                )
-        );
+        robot.depositSubsystem.setLiftPower(-gamepad1.right_stick_y);
+        robot.intakeSubsystem.setExtensionPower(-gamepad1.left_stick_y);
 
         robot.updateData();
         robot.write();

@@ -39,8 +39,8 @@ public class TeleOp_Duo extends CommandOpMode {
         robot.initialize(hardwareMap, telemetry);
         robot.setPoseEstimate(robot.data.currentPose);
 
-        Globals.stopIntaking();
-        Globals.stopScoring();
+        Robot.getInstance().data.stopIntaking();
+        Robot.getInstance().data.stopScoring();
 
         switch (Globals.ALLIANCE) {
             case BLUE:

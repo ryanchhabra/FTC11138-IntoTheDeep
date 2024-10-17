@@ -15,14 +15,16 @@ public class SampleTransferCommand extends ConditionalCommand {
     public SampleTransferCommand() {
         super(
                 new SequentialCommandGroup(
+                        new ArmStateCommand(IntakeSubsystem.ArmState.TRANSFER),
+                        new WaitCommand(200),
                         new InstantCommand(Robot.getInstance().data::setSampleLoaded),
                         new IntakeStateCommand(IntakeSubsystem.IntakeState.OUT),
-                        new WaitCommand(200),
+                        new WaitCommand(500),
                         new ArmStateCommand(IntakeSubsystem.ArmState.UP)
                 ),
                 new InstantCommand(),
                 () -> (
-                        !Robot.getInstance().data.intaking && !Robot.getInstance().data.scoring
+                        !Robot.getInstance().data.intaking && !Robot.getInstance().data.scoring && !Robot.getInstance().data.sampleLoaded
                 )
         );
     }

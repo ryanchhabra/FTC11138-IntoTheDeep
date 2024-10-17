@@ -53,7 +53,6 @@ public class DepositSubsystem extends RE_SubsystemBase {
 
     public void updateBucketState(BucketState state) {
         this.bucketState = state;
-        bucket.setPosition(getClawStatePosition(state));
     }
 
     private double getClawStatePosition(BucketState state) {
@@ -90,6 +89,8 @@ public class DepositSubsystem extends RE_SubsystemBase {
     public void periodic() {
         this.lift1.periodic();
         this.lift2.periodic();
+
+        bucket.setPosition(getClawStatePosition(bucketState));
     }
 
 }
