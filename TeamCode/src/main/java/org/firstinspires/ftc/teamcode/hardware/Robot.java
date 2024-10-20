@@ -47,7 +47,7 @@ public class Robot extends MecanumDrive {
         this.depositSubsystem = new DepositSubsystem(hardwareMap, names.lift, names.lift2, names.bucket);
         this.intakeSubsystem = new IntakeSubsystem(hardwareMap, names.extension, names.arm1, names.arm2, names.intake);
 
-        this.limelight = hardwareMap.get(Limelight3A.class, names.limelight);
+//        this.limelight = hardwareMap.get(Limelight3A.class, names.limelight);
 
     }
 

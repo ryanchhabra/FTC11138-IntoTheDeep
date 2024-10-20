@@ -4,9 +4,9 @@ import com.arcrobotics.ftclib.command.InstantCommand;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 
 public class LiftPositionCommand extends InstantCommand {
-    public LiftPositionCommand(int target) {
+    public LiftPositionCommand(int target, double power) {
         super(
-                () -> Robot.getInstance().depositSubsystem.setTargetLiftPosition(target)
+                () -> Robot.getInstance().depositSubsystem.setTargetLiftPosition(target, power)
         );
     }
 }

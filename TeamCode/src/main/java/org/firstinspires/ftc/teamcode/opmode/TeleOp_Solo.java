@@ -9,6 +9,7 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
+import org.firstinspires.ftc.teamcode.commands.subsystem.ExtensionPowerCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.LiftPositionCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.DropSampleCommand;
 import org.firstinspires.ftc.teamcode.commands.teleop.IntakePullBackCommand;
@@ -34,6 +35,9 @@ public class TeleOp_Solo extends CommandOpMode {
     double heading;
     double fieldCentricOffset;
 
+    boolean lastLeftTrigger;
+    boolean lastRightTrigger;
+
 
     @Override
     public void initialize() {
@@ -47,6 +51,7 @@ public class TeleOp_Solo extends CommandOpMode {
 
         Robot.getInstance().data.stopIntaking();
         Robot.getInstance().data.stopScoring();
+        Robot.getInstance().data.setSampleUnloaded();
 
         switch (Globals.ALLIANCE) {
             case BLUE:
@@ -57,20 +62,14 @@ public class TeleOp_Solo extends CommandOpMode {
                 break;
         }
 
-        g1.getGamepadButton(GamepadKeys.Button.A)
+        g1.getGamepadButton(GamepadKeys.Button.B)
                 .whenPressed(() -> cs.schedule(new LiftDownCommand()));
 
-        g1.getGamepadButton(GamepadKeys.Button.B)
+        g1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
                 .whenPressed(() -> cs.schedule(new LiftUpCommand()));
 
-        g1.getGamepadButton(GamepadKeys.Button.X)
-                .whenPressed(() -> cs.schedule(new IntakePullBackCommand()));
-
-        g1.getGamepadButton(GamepadKeys.Button.Y)
-                .whenPressed(() -> cs.schedule(new IntakePushOutCommand()));
-
-        g1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
-                .whenPressed(() -> cs.schedule(new DropSampleCommand()));
+        g1.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(() -> cs.schedule(new DropSampleCommand().andThen(new LiftDownCommand())));
 
         g1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(() -> cs.schedule(new SampleTransferCommand()));
@@ -100,6 +99,20 @@ public class TeleOp_Solo extends CommandOpMode {
                         -gamepad1.right_stick_x
                 )
         );
+
+        boolean leftTrigger = gamepad1.left_trigger > .5;
+        boolean rightTrigger = gamepad1.right_trigger > .5;
+
+        if (leftTrigger && !lastLeftTrigger) {
+            cs.schedule(new IntakePushOutCommand());
+        }
+
+        if (rightTrigger && !lastRightTrigger) {
+            cs.schedule(new IntakePullBackCommand().andThen(new SampleTransferCommand()));
+        }
+
+        lastLeftTrigger = leftTrigger;
+        lastRightTrigger = rightTrigger;
 
         robot.updateData();
         robot.write();

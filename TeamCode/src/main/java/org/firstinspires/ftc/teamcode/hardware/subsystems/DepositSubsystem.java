@@ -15,12 +15,12 @@ public class DepositSubsystem extends RE_SubsystemBase {
     private final RE_DcMotorEx lift1, lift2;
     private final MotorParams liftParams = new MotorParams(
             Constants.liftMin1, Constants.liftMax1, Constants.liftSlow,
-            1, 0.1, Constants.liftUpRatio, Constants.liftDownRatio, Constants.liftSlowRatio
+            1, 1, Constants.liftUpRatio, Constants.liftDownRatio, Constants.liftSlowRatio
     );
 
     private final MotorParams lift2Params = new MotorParams(
             Constants.liftMin1, Constants.liftMax1, Constants.liftSlow,
-            1, 0.1, Constants.liftUpRatio, Constants.liftDownRatio, Constants.liftSlowRatio
+            1, 1, Constants.liftUpRatio, Constants.liftDownRatio, Constants.liftSlowRatio
     );
 
     private final Servo bucket;
@@ -53,9 +53,10 @@ public class DepositSubsystem extends RE_SubsystemBase {
 
     public void updateBucketState(BucketState state) {
         this.bucketState = state;
+        this.bucket.setPosition(getBucketStatePosition(state));
     }
 
-    private double getClawStatePosition(BucketState state) {
+    private double getBucketStatePosition(BucketState state) {
         switch (state) {
             case DROP:
                 return Constants.bucketDrop;
@@ -75,9 +76,9 @@ public class DepositSubsystem extends RE_SubsystemBase {
         this.lift2.setPower(power);
     }
 
-    public void setTargetLiftPosition(int target) {
-        this.lift1.setTargetPosition(target);
-        this.lift2.setTargetPosition(target);
+    public void setTargetLiftPosition(int target, double power) {
+        this.lift1.setTargetPosition(target, power);
+        this.lift2.setTargetPosition(target, power);
     }
 
     public void setLiftPosition(double power, int target) {
@@ -90,7 +91,7 @@ public class DepositSubsystem extends RE_SubsystemBase {
         this.lift1.periodic();
         this.lift2.periodic();
 
-        bucket.setPosition(getClawStatePosition(bucketState));
+        bucket.setPosition(getBucketStatePosition(bucketState));
     }
 
 }

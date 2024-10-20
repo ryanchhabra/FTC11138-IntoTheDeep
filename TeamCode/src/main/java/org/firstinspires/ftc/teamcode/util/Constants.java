@@ -29,12 +29,12 @@ public class Constants {
 
     /* -------------------------------------------- SERVO CONSTANTS -------------------------------------------- */
 
-    public static double bucketDrop = 1;
-    public static double bucketIntake = 0;
+    public static double bucketDrop = 0;
+    public static double bucketIntake = 0.43;
 
-    public static double armTransfer = 0;
-    public static double armIntake = 0.5;
-    public static double armUp = 0.2;
+    public static double armTransfer = 1;
+    public static double armIntake = 0.36;
+    public static double armUp = 0.8;
 
     public static double armServoOffset = 0;
 
@@ -45,17 +45,18 @@ public class Constants {
     // LIFT
     public static int liftMin1 = 0;
     public static int liftMin2 = 0;
-    public static int liftMax1 = 300;
+    public static int liftMax1 = 1200;
     public static int liftMax2 = 100;
-    public static int liftSlow = 50;
+    public static int liftSlow = 200;
 
     public static double liftUpRatio = 1;
     public static double liftDownRatio = 1;
-    public static double liftSlowRatio = 1;
+    public static double liftSlowRatio = .3;
 
     // Extension
     public static int extMin = 0;
-    public static int extMax = 300;
+    public static int extIntake = 1000;
+    public static int extMax = 1500;
     public static int extSlow = 50;
 
     public static double extUpRatio = 1;

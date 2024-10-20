@@ -12,6 +12,8 @@ import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.BucketStateCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.IntakeStateCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.LiftPositionCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.LiftDownCommand;
+import org.firstinspires.ftc.teamcode.commands.teleop.LiftUpCommand;
 import org.firstinspires.ftc.teamcode.hardware.Localizer;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.DepositSubsystem;
@@ -55,10 +57,10 @@ public class TeleOp_Tune extends CommandOpMode {
         }
 
         g1.getGamepadButton(GamepadKeys.Button.A)
-                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMin1)));
+                .whenPressed(() -> cs.schedule(new LiftUpCommand()));
 
         g1.getGamepadButton(GamepadKeys.Button.B)
-                .whenPressed(() -> cs.schedule(new LiftPositionCommand(Constants.liftMax1)));
+                .whenPressed(() -> cs.schedule(new LiftDownCommand()));
 
         g1.getGamepadButton(GamepadKeys.Button.DPAD_UP)
                 .whenPressed(() -> cs.schedule(new ArmStateCommand(IntakeSubsystem.ArmState.INTAKE)));

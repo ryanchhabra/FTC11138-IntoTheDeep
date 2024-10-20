@@ -89,7 +89,7 @@ public class IntakeSubsystem extends RE_SubsystemBase {
     }
 
     public void setTargetExtensionPosition(int target) {
-        this.extension.setTargetPosition(target);
+        this.extension.setTargetPosition(target, this.extensionParams.maxPower);
     }
 
     public void setExtensionPosition(double power, int target) {
@@ -105,10 +105,10 @@ public class IntakeSubsystem extends RE_SubsystemBase {
 
         switch (this.intakeState) {
             case IN:
-                intake.setPower(-1);
+                intake.setPower(1);
                 break;
             case OUT:
-                intake.setPower(1);
+                intake.setPower(-1);
                 break;
             case STOP:
                 intake.setPower(0);

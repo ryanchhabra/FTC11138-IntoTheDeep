@@ -15,9 +15,8 @@ public class IntakePushOutCommand extends SequentialCommandGroup {
     public IntakePushOutCommand() {
         super(
                 new InstantCommand(Robot.getInstance().data::startIntaking),
-                new ExtensionPositionCommand(Constants.extMax),
+                new ExtensionPositionCommand(Constants.extIntake),
                 new ArmStateCommand(IntakeSubsystem.ArmState.INTAKE),
-                new WaitCommand(1000),
                 new IntakeStateCommand(IntakeSubsystem.IntakeState.IN)
         );
     }

@@ -20,11 +20,12 @@ public class SampleTransferCommand extends ConditionalCommand {
                         new InstantCommand(Robot.getInstance().data::setSampleLoaded),
                         new IntakeStateCommand(IntakeSubsystem.IntakeState.OUT),
                         new WaitCommand(500),
-                        new ArmStateCommand(IntakeSubsystem.ArmState.UP)
+                        new ArmStateCommand(IntakeSubsystem.ArmState.UP),
+                        new IntakeStateCommand(IntakeSubsystem.IntakeState.STOP)
                 ),
                 new InstantCommand(),
                 () -> (
-                        !Robot.getInstance().data.intaking && !Robot.getInstance().data.scoring && !Robot.getInstance().data.sampleLoaded
+                        !Robot.getInstance().data.intaking && !Robot.getInstance().data.scoring
                 )
         );
     }
