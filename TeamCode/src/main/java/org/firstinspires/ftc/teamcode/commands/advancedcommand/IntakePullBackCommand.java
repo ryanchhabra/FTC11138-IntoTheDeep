@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop;
+package org.firstinspires.ftc.teamcode.commands.advancedcommand;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -11,13 +11,14 @@ import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.util.Constants;
 
-public class IntakePushOutCommand extends SequentialCommandGroup {
-    public IntakePushOutCommand() {
+public class IntakePullBackCommand extends SequentialCommandGroup {
+    public IntakePullBackCommand() {
         super(
-                new InstantCommand(Robot.getInstance().data::startIntaking),
-                new ExtensionPositionCommand(Constants.extIntake),
-                new ArmStateCommand(IntakeSubsystem.ArmState.INTAKE),
-                new IntakeStateCommand(IntakeSubsystem.IntakeState.IN)
+                new InstantCommand(Robot.getInstance().data::stopIntaking),
+                new ExtensionPositionCommand(Constants.extMin),
+                new ArmStateCommand(IntakeSubsystem.ArmState.UP),
+                new WaitCommand(1000),
+                new IntakeStateCommand(IntakeSubsystem.IntakeState.STOP)
         );
     }
 }

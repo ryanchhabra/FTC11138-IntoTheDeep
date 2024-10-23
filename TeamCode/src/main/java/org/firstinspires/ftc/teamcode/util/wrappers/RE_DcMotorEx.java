@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.util.wrappers;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.util.Globals;
 
@@ -34,7 +35,8 @@ public class RE_DcMotorEx {
     }
 
     public void setTargetPosition(int target, double power) {
-        this.targetPosition = target;
+        this.targetPosition = Range.clip(target, this.params.minPosition, this.params.maxPosition);
+
         this.targetPower = power;
         usePower = false;
         useEncoder = true;

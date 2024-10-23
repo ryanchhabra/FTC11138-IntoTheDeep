@@ -5,17 +5,22 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
+import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.hardware.Localizer;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.DropSampleCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.ExtensionJumpCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.IntakePullBackCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.IntakePushOutCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftDownCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftUpCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.SampleTransferCommand;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
+import org.firstinspires.ftc.teamcode.hardware.Localizer;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
-import org.firstinspires.ftc.teamcode.util.PoseStorage;
 
-import java.util.ArrayList;
-
-@TeleOp(name = "Duo")
+@TeleOp (name = "Duo")
 public class TeleOp_Duo extends CommandOpMode {
 
     private final Robot robot = Robot.getInstance();
@@ -27,6 +32,10 @@ public class TeleOp_Duo extends CommandOpMode {
     Pose2d currentPose;
     double heading;
     double fieldCentricOffset;
+
+    boolean lastLeftTrigger;
+    boolean lastRightTrigger;
+
 
     @Override
     public void initialize() {
@@ -41,6 +50,7 @@ public class TeleOp_Duo extends CommandOpMode {
 
         Robot.getInstance().data.stopIntaking();
         Robot.getInstance().data.stopScoring();
+        Robot.getInstance().data.setSampleUnloaded();
 
         switch (Globals.ALLIANCE) {
             case BLUE:
@@ -50,6 +60,24 @@ public class TeleOp_Duo extends CommandOpMode {
                 fieldCentricOffset = Math.toRadians(90);
                 break;
         }
+
+        g1.getGamepadButton(GamepadKeys.Button.B)
+                .whenPressed(() -> cs.schedule(new LiftDownCommand()));
+
+        g1.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)
+                .whenPressed(() -> cs.schedule(new LiftUpCommand()));
+
+        g1.getGamepadButton(GamepadKeys.Button.A)
+                .whenPressed(() -> cs.schedule(new DropSampleCommand().andThen(new LiftDownCommand())));
+
+        g1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
+                .whenPressed(() -> cs.schedule(new SampleTransferCommand()));
+
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(() -> cs.schedule(new ExtensionJumpCommand(1)));
+
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(() -> cs.schedule(new ExtensionJumpCommand(-1)));
 
     }
 
@@ -64,65 +92,36 @@ public class TeleOp_Duo extends CommandOpMode {
         heading = -currentPose.getHeading();
 
         Vector2d input = new Vector2d(
-                -gamepad1.left_stick_y,
-                -gamepad1.left_stick_x
-        ).rotated(heading + fieldCentricOffset);
+                -gamepad2.left_stick_y,
+                -gamepad2.left_stick_x
+        )
+                .rotated(heading + fieldCentricOffset);
 
 
         robot.setWeightedDrivePower(
                 new Pose2d(
                         input.getX(),
                         input.getY(),
-                        -gamepad1.right_stick_x
+                        -gamepad2.right_stick_x
                 )
         );
 
-        double lx = 0;
-        double ly = 0;
-        double speedMultiplier = 1;
-        double rotationMultiplier = 1;
+        boolean leftTrigger = gamepad1.left_trigger > .5;
+        boolean rightTrigger = gamepad1.right_trigger > .5;
 
-        // D-pad
-        if (gamepad1.dpad_up) {
-            ly = 1;
-            lx = 0;
-            speedMultiplier = 0.6;
-        } else if (gamepad1.dpad_down) {
-            ly = -1;
-            lx = 0;
-            speedMultiplier = 0.6;
-        }
-        if (gamepad1.dpad_left) {
-            lx = -1;
-            ly = 0;
-            speedMultiplier = 0.6;
-        } else if (gamepad1.dpad_right) {
-            lx = 1;
-            ly = 0;
-            speedMultiplier = 0.6;
+        if (leftTrigger && !lastLeftTrigger) {
+            cs.schedule(new IntakePushOutCommand(Constants.extIntake));
         }
 
-        // Math
-        double theta = Math.atan2(lx, ly);
-        double v_theta = Math.sqrt(lx * lx + ly * ly);
-        double v_rotation = gamepad1.right_stick_x;
-
-        // Drive
-        if (lx != 0 || ly != 0) {
-            robot.drive(theta, speedMultiplier * v_theta, rotationMultiplier * v_rotation);
-        } else {
-            robot.setWeightedDrivePower(
-                    new Pose2d(
-                            input.getX(),
-                            input.getY(),
-                            -gamepad1.right_stick_x
-                    )
-            );
+        if (rightTrigger && !lastRightTrigger) {
+            cs.schedule(new IntakePullBackCommand().andThen(new SampleTransferCommand()));
         }
+
+        lastLeftTrigger = leftTrigger;
+        lastRightTrigger = rightTrigger;
 
         robot.updateData();
         robot.write();
 
     }
-
 }

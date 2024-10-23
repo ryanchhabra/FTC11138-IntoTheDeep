@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.hardware;
 
+import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -39,6 +40,8 @@ public class Robot extends MecanumDrive {
 
     public void initialize(HardwareMap hardwareMap, Telemetry telemetry_) {
         initializeRoadrunner(hardwareMap);
+
+        CommandScheduler.getInstance().reset();
 
         telemetry = telemetry_;
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.commands.teleop;
+package org.firstinspires.ftc.teamcode.commands.advancedcommand;
 
 import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
@@ -14,7 +14,8 @@ public class DropSampleCommand extends SequentialCommandGroup {
                 new BucketStateCommand(DepositSubsystem.BucketState.DROP),
                 new InstantCommand(Robot.getInstance().data::setSampleUnloaded),
                 new WaitCommand(500),
-                new BucketStateCommand(DepositSubsystem.BucketState.INTAKE)
+                new BucketStateCommand(DepositSubsystem.BucketState.INTAKE),
+                new WaitCommand(500)
         );
     }
 }

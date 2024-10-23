@@ -8,18 +8,15 @@ import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
-import org.firstinspires.ftc.teamcode.commands.subsystem.ExtensionPowerCommand;
-import org.firstinspires.ftc.teamcode.commands.subsystem.LiftPositionCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.DropSampleCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.IntakePullBackCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.IntakePushOutCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.LiftDownCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.LiftUpCommand;
-import org.firstinspires.ftc.teamcode.commands.teleop.SampleTransferCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.DropSampleCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.ExtensionJumpCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.IntakePullBackCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.IntakePushOutCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftDownCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftUpCommand;
+import org.firstinspires.ftc.teamcode.commands.advancedcommand.SampleTransferCommand;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.Localizer;
-import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.util.Constants;
 import org.firstinspires.ftc.teamcode.util.Globals;
 
@@ -74,6 +71,12 @@ public class TeleOp_Solo extends CommandOpMode {
         g1.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenPressed(() -> cs.schedule(new SampleTransferCommand()));
 
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_UP)
+                .whenPressed(() -> cs.schedule(new ExtensionJumpCommand(1)));
+
+        g1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(() -> cs.schedule(new ExtensionJumpCommand(-1)));
+
     }
 
     @Override
@@ -104,7 +107,7 @@ public class TeleOp_Solo extends CommandOpMode {
         boolean rightTrigger = gamepad1.right_trigger > .5;
 
         if (leftTrigger && !lastLeftTrigger) {
-            cs.schedule(new IntakePushOutCommand());
+            cs.schedule(new IntakePushOutCommand(Constants.extIntake));
         }
 
         if (rightTrigger && !lastRightTrigger) {
