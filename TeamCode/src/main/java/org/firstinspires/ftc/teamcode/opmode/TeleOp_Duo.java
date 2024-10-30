@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.arcrobotics.ftclib.command.CommandOpMode;
 import com.arcrobotics.ftclib.command.CommandScheduler;
+import com.arcrobotics.ftclib.command.InstantCommand;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -78,6 +79,13 @@ public class TeleOp_Duo extends CommandOpMode {
 
         g1.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> cs.schedule(new ExtensionJumpCommand(-1)));
+
+
+        g1.getGamepadButton(GamepadKeys.Button.RIGHT_STICK_BUTTON)
+                .whenPressed(
+                        new InstantCommand(() -> robot.setPoseEstimate(new Pose2d(0, 0, 0)))
+                                .alongWith(new InstantCommand(() -> gamepad1.rumble(250)))
+                );
 
     }
 

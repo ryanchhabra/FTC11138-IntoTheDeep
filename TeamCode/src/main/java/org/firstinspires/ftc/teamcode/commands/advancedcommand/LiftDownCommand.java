@@ -12,7 +12,7 @@ public class LiftDownCommand extends SequentialCommandGroup {
     public LiftDownCommand() {
         super(
                 new LiftPositionCommand(Constants.liftSlow, 1),
-                new WaitCommand(500),
+                new WaitCommand(700),
                 new LiftPositionCommand(Constants.liftMin1, Constants.liftSlowRatio),
                 new InstantCommand(Robot.getInstance().data::stopScoring)
         );

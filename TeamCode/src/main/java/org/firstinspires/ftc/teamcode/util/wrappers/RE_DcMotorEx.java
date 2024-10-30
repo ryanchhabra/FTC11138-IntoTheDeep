@@ -27,7 +27,7 @@ public class RE_DcMotorEx {
     }
 
     public int getPosition() {
-        return this.motor.getCurrentPosition();
+        return this.currentPosition;
     }
 
     public void setPower(double power) {
@@ -46,6 +46,10 @@ public class RE_DcMotorEx {
         motor.setPower(power);
         motor.setTargetPosition(target);
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+    }
+
+    public void setMode(DcMotor.RunMode mode) {
+        this.motor.setMode(mode);
     }
 
     public void periodic() {
@@ -81,7 +85,6 @@ public class RE_DcMotorEx {
         } else if (usePower) {
             power = 0;
         }
-
 
         if (modeUpdate && useEncoder) {
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

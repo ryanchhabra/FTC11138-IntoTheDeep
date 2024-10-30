@@ -13,7 +13,7 @@ public class RobotData {
     public int liftPosition1 = 0;
     public int liftPosition2 = 0;
     public double bucketPosition = 0;
-    public DepositSubsystem.BucketState depositClawState = DepositSubsystem.BucketState.NONE;
+    public DepositSubsystem.BucketState bucketState = DepositSubsystem.BucketState.NONE;
 
     public int extensionPosition = 0;
     public double armPosition1 = 0;
@@ -48,7 +48,7 @@ public class RobotData {
         telemetry.addData("Lift Position 1", this.liftPosition1);
         telemetry.addData("Lift Position 2", this.liftPosition2);
         telemetry.addData("Wrist Position", this.bucketPosition);
-        telemetry.addData("Deposit Claw State", this.depositClawState);
+        telemetry.addData("Bucket State", this.bucketState);
 
         telemetry.addLine();
 
