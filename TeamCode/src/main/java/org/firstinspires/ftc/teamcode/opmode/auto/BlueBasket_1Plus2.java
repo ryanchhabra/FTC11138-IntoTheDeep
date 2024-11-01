@@ -30,16 +30,16 @@ import org.firstinspires.ftc.teamcode.util.PoseConstants;
 @Autonomous(name = "Blue Basket 1+2", preselectTeleOp = "Solo")
 public class BlueBasket_1Plus2 extends LinearOpMode {
 
-    public static Pose2d redBasketAngle = PoseConstants.Score.redBasketAngle;
-    public static double sample1x = -37;
-    public static double sample1y = -26.5;
-    public static double sample1degrees = 180;
-    public static int sample1ext = 0;
+    public static Pose2d bluebasketAngle = PoseConstants.Score.blueBasketAngle;
+    public static double sample1x = 36;
+    public static double sample1y = 26;
+    public static double sample1degrees = 0;
+    public static int sample1ext = 600;
 
-    public static double sample2x = -47;
-    public static double sample2y = -27;
-    public static double sample2degrees = 180;
-    public static int sample2ext = 0;
+    public static double sample2x = 47;
+    public static double sample2y = 26.5;
+    public static double sample2degrees = 0;
+    public static int sample2ext = 500;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -58,7 +58,7 @@ public class BlueBasket_1Plus2 extends LinearOpMode {
             robot.write();
         }
 
-        robot.setPoseEstimate(PoseConstants.Start.redBasket);
+        robot.setPoseEstimate(PoseConstants.Start.blueBasket);
         robot.data.stopIntaking();
         robot.data.stopScoring();
         robot.data.setSampleLoaded();
@@ -70,17 +70,17 @@ public class BlueBasket_1Plus2 extends LinearOpMode {
                 new SequentialCommandGroup(
                         new ArmStateCommand(IntakeSubsystem.ArmState.UP),
                         new BucketStateCommand(DepositSubsystem.BucketState.INTAKE),
-                        new LinePositionCommand(redBasketAngle)
+                        new LinePositionCommand(bluebasketAngle)
                                 .alongWith(new LiftUpCommand()),
                         new WaitCommand(500),
                         new DropSampleCommand(),
                         new LiftDownCommand(),
-                        new IntakePushOutCommand(sample1ext),
+                        new IntakePushOutCommand(0),
 
-                        new SplinePositionCommand(sample1, 0, Math.toRadians(90)),
-                        new ExtensionJumpCommand(1),
-                        new WaitCommand(500),
-                        new LinePositionCommand(redBasketAngle)
+                        new SplinePositionCommand(sample1, 180, Math.toRadians(-90)),
+                        new ExtensionJumpCommand(1, sample1ext),
+                        new WaitCommand(1000),
+                        new LinePositionCommand(bluebasketAngle)
                                 .alongWith(
                                         new SequentialCommandGroup(
                                                 new IntakePullBackCommand(),
@@ -93,12 +93,12 @@ public class BlueBasket_1Plus2 extends LinearOpMode {
                         new WaitCommand(1000),
                         new DropSampleCommand(),
                         new LiftDownCommand(),
-                        new IntakePushOutCommand(sample2ext),
+                        new IntakePushOutCommand(0),
 
-                        new LinePositionCommand(sample2),
-                        new ExtensionJumpCommand(1),
-                        new WaitCommand(500),
-                        new LinePositionCommand(redBasketAngle)
+                        new SplinePositionCommand(sample2, 180, Math.toRadians(-90)),
+                        new ExtensionJumpCommand(1, sample2ext),
+                        new WaitCommand(1000),
+                        new LinePositionCommand(bluebasketAngle)
                                 .alongWith(
                                         new SequentialCommandGroup(
                                                 new IntakePullBackCommand(),
@@ -112,8 +112,7 @@ public class BlueBasket_1Plus2 extends LinearOpMode {
                         new DropSampleCommand(),
                         new LiftDownCommand(),
 
-                        new SplinePositionCommand(new Pose2d(-18, -12, Math.toRadians(0)), Math.toRadians(90), Math.toRadians(-30))
-                                .alongWith(new Ascent1Command())
+                        new SplinePositionCommand(new Pose2d(18, 12, Math.toRadians(0)), Math.toRadians(-90), Math.toRadians(150))
                 )
         );
 

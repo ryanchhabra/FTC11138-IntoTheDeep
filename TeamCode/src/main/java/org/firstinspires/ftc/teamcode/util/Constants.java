@@ -58,11 +58,11 @@ public class Constants {
 
     // Extension
     public static int extMin = 0;
-    public static int extIntake = 1000;
+    public static int extIntake = 750;
     public static int extMax = 1300;
     public static int extSlow = 50;
 
-    public static int extJump = 400;
+    public static int extJump = 500;
 
     public static double extUpRatio = 1;
     public static double extDownRatio = 1;

@@ -22,6 +22,7 @@ import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftDownCommand;
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftMidCommand;
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftUpCommand;
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.SampleTransferCommand;
+import org.firstinspires.ftc.teamcode.commands.subsystem.ExtensionPowerCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.IntakeStateCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.LiftPowerCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.LiftResetCommand;
@@ -61,6 +62,9 @@ public class TeleOp_Solo extends CommandOpMode {
     boolean lastDpadLeft;
     boolean lastDpadRight;
 
+    boolean lastLiftChangeJoystickUp;
+    boolean lastLiftChangeJoystickDown;
+
 
     @Override
     public void initialize() {
@@ -77,10 +81,10 @@ public class TeleOp_Solo extends CommandOpMode {
         data.setSampleUnloaded();
 
         switch (Globals.ALLIANCE) {
-            case BLUE:
+            case RED:
                 fieldCentricOffset = Math.toRadians(90);
                 break;
-            case RED:
+            case BLUE:
                 fieldCentricOffset = Math.toRadians(-90);
                 break;
         }
@@ -108,7 +112,7 @@ public class TeleOp_Solo extends CommandOpMode {
     @Override
     public void run() {
 
-        super.run();
+        cs.run();
         robot.periodic();
 
         robot.update();
@@ -128,6 +132,18 @@ public class TeleOp_Solo extends CommandOpMode {
                         -gamepad1.right_stick_x * (data.scoring ? 0.5 : 1)
                 )
         );
+
+        boolean liftChangeJoystickUp = gamepad1.right_stick_y < -0.8;
+        boolean liftChangeJoystickDown = gamepad1.right_stick_y > 0.8;
+
+        if (liftChangeJoystickUp && !lastLiftChangeJoystickUp) {
+            cs.schedule(new ExtensionJumpCommand(1));
+        } else if (liftChangeJoystickDown && !lastLiftChangeJoystickDown) {
+            cs.schedule(new ExtensionJumpCommand(-1));
+        }
+
+        lastLiftChangeJoystickUp = liftChangeJoystickUp;
+        lastLiftChangeJoystickDown = liftChangeJoystickDown;
 
         boolean a = g1.getButton(GamepadKeys.Button.A);
         boolean b = g1.getButton(GamepadKeys.Button.B);

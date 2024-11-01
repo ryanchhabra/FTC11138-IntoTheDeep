@@ -94,6 +94,8 @@ public class DepositSubsystem extends RE_SubsystemBase {
     public void resetLift() {
         this.lift1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.lift2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.lift1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        this.lift2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     @Override

@@ -15,4 +15,14 @@ public class ExtensionJumpCommand extends InstantCommand {
                 }
         );
     }
+
+    public ExtensionJumpCommand(int dir, int dist) {
+        super(
+                () -> {
+                    Robot.getInstance().intakeSubsystem.setTargetExtensionPosition(
+                            Robot.getInstance().data.extensionPosition + dist * dir
+                    );
+                }
+        );
+    }
 }

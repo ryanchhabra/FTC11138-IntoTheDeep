@@ -27,19 +27,19 @@ import org.firstinspires.ftc.teamcode.util.Globals;
 import org.firstinspires.ftc.teamcode.util.PoseConstants;
 
 @Config
-@Autonomous(name = "Red Basket 1+3", preselectTeleOp = "Solo")
+@Autonomous(name = "Red Basket 1+2", preselectTeleOp = "Solo")
 public class RedBasket_1Plus2 extends LinearOpMode {
 
     public static Pose2d redBasketAngle = PoseConstants.Score.redBasketAngle;
     public static double sample1x = -37;
-    public static double sample1y = -26.5;
+    public static double sample1y = -27;
     public static double sample1degrees = 180;
-    public static int sample1ext = 0;
+    public static int sample1ext = 650;
 
     public static double sample2x = -47;
     public static double sample2y = -27;
     public static double sample2degrees = 180;
-    public static int sample2ext = 0;
+    public static int sample2ext = 500;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -75,11 +75,11 @@ public class RedBasket_1Plus2 extends LinearOpMode {
                         new WaitCommand(500),
                         new DropSampleCommand(),
                         new LiftDownCommand(),
-                        new IntakePushOutCommand(sample1ext),
+                        new IntakePushOutCommand(0),
 
                         new SplinePositionCommand(sample1, 0, Math.toRadians(90)),
-                        new ExtensionJumpCommand(1),
-                        new WaitCommand(500),
+                        new ExtensionJumpCommand(1, sample1ext),
+                        new WaitCommand(1000),
                         new LinePositionCommand(redBasketAngle)
                                 .alongWith(
                                         new SequentialCommandGroup(
@@ -93,11 +93,11 @@ public class RedBasket_1Plus2 extends LinearOpMode {
                         new WaitCommand(1000),
                         new DropSampleCommand(),
                         new LiftDownCommand(),
-                        new IntakePushOutCommand(sample2ext),
+                        new IntakePushOutCommand(0),
 
-                        new LinePositionCommand(sample2),
-                        new ExtensionJumpCommand(1),
-                        new WaitCommand(500),
+                        new SplinePositionCommand(sample2, 0, Math.toRadians(90)),
+                        new ExtensionJumpCommand(1, sample2ext),
+                        new WaitCommand(1000),
                         new LinePositionCommand(redBasketAngle)
                                 .alongWith(
                                         new SequentialCommandGroup(
@@ -112,8 +112,7 @@ public class RedBasket_1Plus2 extends LinearOpMode {
                         new DropSampleCommand(),
                         new LiftDownCommand(),
 
-                        new SplinePositionCommand(new Pose2d(-18, -12, Math.toRadians(0)), Math.toRadians(90), Math.toRadians(-30))
-                                .alongWith(new Ascent1Command())
+                        new SplinePositionCommand(new Pose2d(-18, -12, Math.toRadians(180)), Math.toRadians(90), Math.toRadians(-30))
                 )
         );
 
