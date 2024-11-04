@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.Ascent1Command;
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.ExtensionJumpCommand;
+import org.firstinspires.ftc.teamcode.commands.drivecommand.DriveForwardCommand;
 import org.firstinspires.ftc.teamcode.commands.drivecommand.LinePositionCommand;
 import org.firstinspires.ftc.teamcode.commands.drivecommand.SplinePositionCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
@@ -32,12 +33,12 @@ public class RedBasket_1Plus2 extends LinearOpMode {
 
     public static Pose2d redBasketAngle = PoseConstants.Score.redBasketAngle;
     public static double sample1x = -37;
-    public static double sample1y = -27;
+    public static double sample1y = -27.5;
     public static double sample1degrees = 180;
     public static int sample1ext = 650;
 
     public static double sample2x = -47;
-    public static double sample2y = -27;
+    public static double sample2y = -27.5;
     public static double sample2degrees = 180;
     public static int sample2ext = 500;
 
@@ -73,7 +74,10 @@ public class RedBasket_1Plus2 extends LinearOpMode {
                         new LinePositionCommand(redBasketAngle)
                                 .alongWith(new LiftUpCommand()),
                         new WaitCommand(500),
+                        new DriveForwardCommand(-1),
+                        new WaitCommand(500),
                         new DropSampleCommand(),
+
                         new LiftDownCommand(),
                         new IntakePushOutCommand(0),
 
@@ -91,7 +95,10 @@ public class RedBasket_1Plus2 extends LinearOpMode {
                                         )
                                 ),
                         new WaitCommand(1000),
+                        new DriveForwardCommand(-1),
+                        new WaitCommand(500),
                         new DropSampleCommand(),
+
                         new LiftDownCommand(),
                         new IntakePushOutCommand(0),
 
@@ -109,10 +116,14 @@ public class RedBasket_1Plus2 extends LinearOpMode {
                                         )
                                 ),
                         new WaitCommand(1000),
+                        new DriveForwardCommand(-1),
+                        new WaitCommand(500),
                         new DropSampleCommand(),
+
                         new LiftDownCommand(),
 
-                        new SplinePositionCommand(new Pose2d(-18, -12, Math.toRadians(180)), Math.toRadians(90), Math.toRadians(-30))
+                        new SplinePositionCommand(new Pose2d(-18, -12, Math.toRadians(0)), Math.toRadians(90), Math.toRadians(-30))
+                                .alongWith(new Ascent1Command())
                 )
         );
 

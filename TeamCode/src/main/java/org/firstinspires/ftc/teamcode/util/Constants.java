@@ -46,7 +46,7 @@ public class Constants {
     // LIFT
     public static int liftMin1 = 0;
     public static int liftMin2 = 0;
-    public static int liftMax1 = 1200;
+    public static int liftMax1 = 1300;
     public static int liftMid1 = 700;
     public static int liftMax2 = 100;
     public static int liftSlow = 500;
@@ -59,7 +59,7 @@ public class Constants {
     // Extension
     public static int extMin = 0;
     public static int extIntake = 750;
-    public static int extMax = 1300;
+    public static int extMax = 1500;
     public static int extSlow = 50;
 
     public static int extJump = 500;

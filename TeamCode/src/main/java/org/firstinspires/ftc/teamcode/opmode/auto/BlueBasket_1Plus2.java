@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.commands.advancedcommand.IntakePushOutComm
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftDownCommand;
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.LiftUpCommand;
 import org.firstinspires.ftc.teamcode.commands.advancedcommand.SampleTransferCommand;
+import org.firstinspires.ftc.teamcode.commands.drivecommand.DriveForwardCommand;
 import org.firstinspires.ftc.teamcode.commands.drivecommand.LinePositionCommand;
 import org.firstinspires.ftc.teamcode.commands.drivecommand.SplinePositionCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
@@ -73,6 +74,8 @@ public class BlueBasket_1Plus2 extends LinearOpMode {
                         new LinePositionCommand(bluebasketAngle)
                                 .alongWith(new LiftUpCommand()),
                         new WaitCommand(500),
+                        new DriveForwardCommand(-1),
+                        new WaitCommand(500),
                         new DropSampleCommand(),
                         new LiftDownCommand(),
                         new IntakePushOutCommand(0),
@@ -91,6 +94,8 @@ public class BlueBasket_1Plus2 extends LinearOpMode {
                                         )
                                 ),
                         new WaitCommand(1000),
+                        new DriveForwardCommand(-1),
+                        new WaitCommand(500),
                         new DropSampleCommand(),
                         new LiftDownCommand(),
                         new IntakePushOutCommand(0),
@@ -109,10 +114,13 @@ public class BlueBasket_1Plus2 extends LinearOpMode {
                                         )
                                 ),
                         new WaitCommand(1000),
+                        new DriveForwardCommand(-1),
+                        new WaitCommand(500),
                         new DropSampleCommand(),
                         new LiftDownCommand(),
 
-                        new SplinePositionCommand(new Pose2d(18, 12, Math.toRadians(0)), Math.toRadians(-90), Math.toRadians(150))
+                        new SplinePositionCommand(new Pose2d(18, 12, Math.toRadians(180)), Math.toRadians(-90), Math.toRadians(150))
+                                .alongWith(new Ascent1Command())
                 )
         );
 
