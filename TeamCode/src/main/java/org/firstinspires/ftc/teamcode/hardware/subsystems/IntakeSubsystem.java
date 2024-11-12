@@ -1,26 +1,33 @@
 package org.firstinspires.ftc.teamcode.hardware.subsystems;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.hardware.CRServoImplEx;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SampleRevBlinkinLedDriver;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.util.Constants;
-import org.firstinspires.ftc.teamcode.util.wrappers.MotorParams;
+import org.firstinspires.ftc.teamcode.util.Globals;
+import org.firstinspires.ftc.teamcode.util.wrappers.RE_DcMotorExParams;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_DcMotorEx;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_SubsystemBase;
 
 public class IntakeSubsystem extends RE_SubsystemBase {
 
     private final RE_DcMotorEx extension;
-    private final MotorParams extensionParams = new MotorParams(
+    private final RE_DcMotorExParams extensionParams = new RE_DcMotorExParams(
             Constants.extMin, Constants.extMax, Constants.extSlow,
             1, 1, Constants.extUpRatio, Constants.extDownRatio, Constants.extSlowRatio
     );
 
     private final Servo arm1, arm2;
     private final CRServoImplEx intake;
+
+    public final RevBlinkinLedDriver leds;
 
     public IntakeState intakeState;
     public ArmState armState;
@@ -38,7 +45,7 @@ public class IntakeSubsystem extends RE_SubsystemBase {
         NONE
     }
 
-    public IntakeSubsystem(HardwareMap hardwareMap, String ext, String arm1, String arm2, String intake) {
+    public IntakeSubsystem(HardwareMap hardwareMap, String ext, String arm1, String arm2, String intake, String dist, String leds) {
         this.extension = new RE_DcMotorEx(hardwareMap.get(DcMotorEx.class, ext), extensionParams);
 
         this.arm1 = hardwareMap.get(Servo.class, arm1);
@@ -46,6 +53,7 @@ public class IntakeSubsystem extends RE_SubsystemBase {
         this.arm2.setDirection(Servo.Direction.REVERSE);
 
         this.intake = hardwareMap.get(CRServoImplEx.class, intake);
+        this.leds = hardwareMap.get(RevBlinkinLedDriver.class, leds);
 
         intakeState = IntakeState.STOP;
         armState = ArmState.UP;
@@ -114,6 +122,10 @@ public class IntakeSubsystem extends RE_SubsystemBase {
                 intake.setPower(0);
                 break;
         }
+    }
+
+    public void setLeds(RevBlinkinLedDriver.BlinkinPattern pattern) {
+        leds.setPattern(pattern);
     }
 
     public void updateIntakeState(IntakeState state) {

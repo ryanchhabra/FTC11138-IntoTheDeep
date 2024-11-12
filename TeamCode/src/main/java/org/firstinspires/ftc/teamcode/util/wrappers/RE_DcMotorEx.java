@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.util.Globals;
 public class RE_DcMotorEx {
 
     public DcMotorEx motor;
-    public MotorParams params;
+    public RE_DcMotorExParams params;
 
     private boolean usePower = true;
     private boolean modeUpdate = false;
@@ -20,7 +20,7 @@ public class RE_DcMotorEx {
     private int currentPosition = 0;
     private double power = 0.0;
 
-    public RE_DcMotorEx(DcMotorEx motor, MotorParams params) {
+    public RE_DcMotorEx(DcMotorEx motor, RE_DcMotorExParams params) {
         this.motor = motor;
         this.params = params;
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

@@ -28,8 +28,8 @@ import org.firstinspires.ftc.teamcode.util.Globals;
 import org.firstinspires.ftc.teamcode.util.PoseConstants;
 
 @Config
-@Autonomous(name = "Red Basket 1+2", preselectTeleOp = "Solo")
-public class RedBasket_1Plus2 extends LinearOpMode {
+@Autonomous(name = "3+0", preselectTeleOp = "Solo")
+public class Auto_3Plus0 extends LinearOpMode {
 
     public static Pose2d redBasketAngle = PoseConstants.Score.redBasketAngle;
     public static double sample1x = -37;

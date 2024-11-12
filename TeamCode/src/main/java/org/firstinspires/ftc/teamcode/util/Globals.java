@@ -11,31 +11,6 @@ public class Globals {
 
     public static Alliance ALLIANCE = Alliance.BLUE;
 
-
-    public static boolean IS_SCORING = false;
-    public static boolean IS_INTAKING = false;
-
-    public static void startScoring() {
-        IS_SCORING = true;
-        IS_INTAKING = false;
-    }
-
-    public static void stopScoring() {
-        IS_SCORING = false;
-        IS_INTAKING = false;
-    }
-
-    public static void startIntaking() {
-        IS_SCORING = false;
-        IS_INTAKING = true;
-    }
-
-    public static void stopIntaking() {
-        IS_SCORING = false;
-        IS_INTAKING = false;
-    }
-
-
     public enum Alliance {
         RED,
         BLUE

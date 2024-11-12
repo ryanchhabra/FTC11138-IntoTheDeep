@@ -83,9 +83,11 @@ public class TeleOp_Solo extends CommandOpMode {
         switch (Globals.ALLIANCE) {
             case RED:
                 fieldCentricOffset = Math.toRadians(90);
+                robot.intakeSubsystem.leds.setPattern(Constants.redPattern);
                 break;
             case BLUE:
                 fieldCentricOffset = Math.toRadians(-90);
+                robot.intakeSubsystem.leds.setPattern(Constants.bluePattern);
                 break;
         }
 
@@ -136,10 +138,12 @@ public class TeleOp_Solo extends CommandOpMode {
         boolean liftChangeJoystickUp = gamepad1.right_stick_y < -0.8;
         boolean liftChangeJoystickDown = gamepad1.right_stick_y > 0.8;
 
-        if (liftChangeJoystickUp && !lastLiftChangeJoystickUp) {
-            cs.schedule(new ExtensionJumpCommand(1));
-        } else if (liftChangeJoystickDown && !lastLiftChangeJoystickDown) {
-            cs.schedule(new ExtensionJumpCommand(-1));
+        if (robot.data.intaking) {
+            if (liftChangeJoystickUp && !lastLiftChangeJoystickUp) {
+                cs.schedule(new ExtensionJumpCommand(1));
+            } else if (liftChangeJoystickDown && !lastLiftChangeJoystickDown) {
+                cs.schedule(new ExtensionJumpCommand(-1));
+            }
         }
 
         lastLiftChangeJoystickUp = liftChangeJoystickUp;

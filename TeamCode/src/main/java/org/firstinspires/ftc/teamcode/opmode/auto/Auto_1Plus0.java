@@ -20,8 +20,8 @@ import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.util.Globals;
 import org.firstinspires.ftc.teamcode.util.PoseConstants;
 
-@Autonomous(name = "Red Basket 1+0", preselectTeleOp = "Solo")
-public class RedBasket_1Plus0 extends LinearOpMode {
+@Autonomous(name = "1+0", preselectTeleOp = "Solo")
+public class Auto_1Plus0 extends LinearOpMode {
 
 
     @Override

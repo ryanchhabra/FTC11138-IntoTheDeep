@@ -22,6 +22,8 @@ public class Configuration {
     public final String arm2 = "arm2";
     public final String intake = "intake";
 
+    public final String dist = "dist";
+
     // Other Stuff
     public final String leds = "leds";
 

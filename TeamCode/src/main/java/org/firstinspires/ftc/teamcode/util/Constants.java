@@ -34,10 +34,12 @@ public class Constants {
     public static double bucketAscent = 0;
 
     public static double armTransfer = 1;
-    public static double armIntake = 0.35;
+    public static double armIntake = 0.36;
     public static double armUp = 0.73;
-
     public static double armServoOffset = 0;
+
+    public static double specimenClawOpen = 0;
+    public static double specimenClawClose = 0.25;
 
 
 
@@ -67,6 +69,17 @@ public class Constants {
     public static double extUpRatio = 1;
     public static double extDownRatio = 1;
     public static double extSlowRatio = 1;
+
+    //
+    public static int specimenLiftMin = 0;
+    public static int specimenLiftLow = 1500;
+    public static int specimenLiftHigh = 1500;
+    public static int specimenLiftMax = 1500;
+    public static int specimenLiftSlow = 50;
+
+    public static double specimenLiftUpRatio = 1;
+    public static double specimenLiftDownRatio = 1;
+    public static double specimenLiftSlowRatio = 1;
 
 
 

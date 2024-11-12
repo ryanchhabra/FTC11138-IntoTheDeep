@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.DepositSubsystem;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.hardware.subsystems.SpecimenSubsystem;
 
 public class RobotData {
 
@@ -20,6 +21,10 @@ public class RobotData {
     public double armPosition2 = 0;
     public IntakeSubsystem.ArmState armState = IntakeSubsystem.ArmState.NONE;
     public IntakeSubsystem.IntakeState intakeState = IntakeSubsystem.IntakeState.STOP;
+    public double intakeDistance = 0;
+
+    public int specimenLiftPosition = 0;
+    public SpecimenSubsystem.SpecimenClawState specimenClawState = SpecimenSubsystem.SpecimenClawState.OPEN;
 
     public Pose2d currentPose = new Pose2d(0,0, Math.toRadians(0));
 
@@ -57,6 +62,14 @@ public class RobotData {
         telemetry.addData("Arm Position 2", this.armPosition2);
         telemetry.addData("Arm State", this.armState);
         telemetry.addData("Intake State", this.intakeState);
+        telemetry.addData("Intake Distance", this.intakeDistance);
+
+        telemetry.addLine();
+
+        telemetry.addData("Specimen Lift Position", this.specimenLiftPosition);
+        telemetry.addData("Specimen Claw State", this.specimenClawState);
+
+        telemetry.addLine();
 
         telemetry.update();
     }

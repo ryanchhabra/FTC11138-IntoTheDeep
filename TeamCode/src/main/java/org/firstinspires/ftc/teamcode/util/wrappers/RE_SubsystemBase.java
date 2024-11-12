@@ -8,4 +8,8 @@ public class RE_SubsystemBase extends SubsystemBase {
 
     }
 
+    public void periodic() {
+
+    }
+
 }

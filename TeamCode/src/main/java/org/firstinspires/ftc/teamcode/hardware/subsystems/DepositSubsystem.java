@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.hardware.Robot;
-import org.firstinspires.ftc.teamcode.util.wrappers.MotorParams;
+import org.firstinspires.ftc.teamcode.util.wrappers.RE_DcMotorExParams;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_DcMotorEx;
 import org.firstinspires.ftc.teamcode.util.wrappers.RE_SubsystemBase;
 import org.firstinspires.ftc.teamcode.util.Constants;
@@ -14,12 +14,12 @@ import org.firstinspires.ftc.teamcode.util.Constants;
 public class DepositSubsystem extends RE_SubsystemBase {
 
     private RE_DcMotorEx lift1, lift2;
-    private final MotorParams liftParams = new MotorParams(
+    private final RE_DcMotorExParams liftParams = new RE_DcMotorExParams(
             Constants.liftMin1, Constants.liftMax1, Constants.liftSlow,
             1, 1, Constants.liftUpRatio, Constants.liftDownRatio, Constants.liftSlowRatio
     );
 
-    private final MotorParams lift2Params = new MotorParams(
+    private final RE_DcMotorExParams lift2Params = new RE_DcMotorExParams(
             Constants.liftMin1, Constants.liftMax1, Constants.liftSlow,
             1, 1, Constants.liftUpRatio, Constants.liftDownRatio, Constants.liftSlowRatio
     );
