@@ -34,7 +34,7 @@ public class Constants {
     public static double bucketAscent = 0;
 
     public static double armTransfer = 1;
-    public static double armIntake = 0.36;
+    public static double armIntake = 0.35;
     public static double armUp = 0.73;
     public static double armServoOffset = 0;
 

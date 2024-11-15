@@ -5,7 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.command.CommandScheduler;
 import com.arcrobotics.ftclib.command.SequentialCommandGroup;
 import com.arcrobotics.ftclib.command.WaitCommand;
-import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.arcrobotics.ftclib.spline.Spline;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -21,7 +21,6 @@ import org.firstinspires.ftc.teamcode.commands.drivecommand.LinePositionCommand;
 import org.firstinspires.ftc.teamcode.commands.drivecommand.SplinePositionCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.ArmStateCommand;
 import org.firstinspires.ftc.teamcode.commands.subsystem.BucketStateCommand;
-import org.firstinspires.ftc.teamcode.commands.subsystem.LedSetCommand;
 import org.firstinspires.ftc.teamcode.hardware.Robot;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.DepositSubsystem;
 import org.firstinspires.ftc.teamcode.hardware.subsystems.IntakeSubsystem;
@@ -30,8 +29,8 @@ import org.firstinspires.ftc.teamcode.util.Globals;
 import org.firstinspires.ftc.teamcode.util.PoseConstants;
 
 @Config
-@Autonomous(name = "4+0", preselectTeleOp = "Solo")
-public class Auto_4Plus0 extends LinearOpMode {
+@Autonomous(name = "5+0", preselectTeleOp = "Solo")
+public class Auto_5Plus0 extends LinearOpMode {
 
     public static Pose2d redBasketAngle = PoseConstants.Score.redBasketAngle;
     public static double sample1x = -31;
@@ -48,6 +47,11 @@ public class Auto_4Plus0 extends LinearOpMode {
     public static double sample3y = -27;
     public static double sample3degrees = 180;
     public static int sample3ext = 500;
+
+    public static double sample4x = 34;
+    public static double sample4y = -37.5;
+    public static double sample4degrees = 30;
+    public static int sample4ext = 700;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -74,6 +78,7 @@ public class Auto_4Plus0 extends LinearOpMode {
         Pose2d sample1 = new Pose2d(sample1x, sample1y, Math.toRadians(sample1degrees));
         Pose2d sample2 = new Pose2d(sample2x, sample2y, Math.toRadians(sample2degrees));
         Pose2d sample3 = new Pose2d(sample3x, sample3y, Math.toRadians(sample3degrees));
+        Pose2d sample4 = new Pose2d(sample4x, sample4y, Math.toRadians(sample4degrees));
 
         robot.intakeSubsystem.setLeds(Constants.redPattern);
 
@@ -145,8 +150,27 @@ public class Auto_4Plus0 extends LinearOpMode {
                                 ),
                         new DropSampleCommand(),
 
-                        new SplinePositionCommand(new Pose2d(-18, -12, Math.toRadians(0)), Math.toRadians(90), Math.toRadians(-30))
-                                .alongWith(new Ascent1Command())
+                        new SplinePositionCommand(sample4, Math.toRadians(45), Math.toRadians(20))
+                                .alongWith(new SequentialCommandGroup(
+                                        new LiftDownCommand(),
+                                        new IntakePushOutCommand(0)
+                                )),
+
+                        new ExtensionJumpCommand(1, sample4ext),
+                        new WaitCommand(500),
+                        new SplinePositionCommand(redBasketAngle, Math.toRadians(210), Math.toRadians(225))
+                                .alongWith(
+                                        new SequentialCommandGroup(
+                                                new IntakePullBackCommand(),
+                                                new SampleTransferCommand(),
+                                                new WaitCommand(700),
+                                                new LiftUpCommand(),
+                                                new WaitCommand(700)
+                                        )
+                                ),
+                        new DropSampleCommand(),
+
+                        new LiftDownCommand()
 
                 )
         );

@@ -122,8 +122,8 @@ public class TeleOp_Solo extends CommandOpMode {
         heading = -currentPose.getHeading();
 
         Vector2d input = new Vector2d(
-                -gamepad1.left_stick_y * (data.scoring ? 0.5 : 1),
-                -gamepad1.left_stick_x * (data.scoring ? 0.5 : 1)
+                -gamepad1.left_stick_y * (data.scoring || data.intaking ? 0.5 : 1),
+                -gamepad1.left_stick_x * (data.scoring || data.intaking ? 0.5 : 1)
         ).rotated(heading + fieldCentricOffset);
 
 
@@ -131,7 +131,7 @@ public class TeleOp_Solo extends CommandOpMode {
                 new Pose2d(
                         input.getX(),
                         input.getY(),
-                        -gamepad1.right_stick_x * (data.scoring ? 0.5 : 1)
+                        -gamepad1.right_stick_x * (data.scoring || data.intaking ? 0.7 : 1)
                 )
         );
 
