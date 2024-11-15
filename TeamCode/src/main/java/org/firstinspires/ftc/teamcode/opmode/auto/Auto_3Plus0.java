@@ -47,7 +47,6 @@ public class Auto_3Plus0 extends LinearOpMode {
         Robot robot = Robot.getInstance();
 
         Globals.IS_AUTO = true;
-        Globals.ALLIANCE = Globals.Alliance.RED;
 
         robot.initialize(hardwareMap, telemetry);
         CommandScheduler.getInstance().reset();
